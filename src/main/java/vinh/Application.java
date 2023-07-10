@@ -1,13 +1,11 @@
-package com.java.web3;
-
+package vinh;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Web3BackendApplication {
+public class Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Web3BackendApplication.class, args);
+		SpringApplication.run(Application.class, args);
 	}
-
 }
