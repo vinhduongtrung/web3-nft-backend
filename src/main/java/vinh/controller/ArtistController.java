@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ArtistController {
 	
 	
-	@GetMapping
+	@GetMapping("/get")
 	public String get() {
 		return "artist";
 	}

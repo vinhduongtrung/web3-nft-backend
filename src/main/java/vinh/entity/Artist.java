@@ -1,31 +1,23 @@
 package vinh.entity;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 
 @Entity
-public class User {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+public class Artist {
+
 	private Long id;
 	
-	@Column(unique = true)
 	private String name;
 	
 	private String email;
 	
 	private String password;
 	
-	private String profilePicture;
-	
 	private Role role;
 	
-	
-	
+	@OneToOne
+	private Shop shop;
 
 	public Long getId() {
 		return id;
@@ -59,19 +51,19 @@ public class User {
 		this.password = password;
 	}
 
-	public String getProfilePicture() {
-		return profilePicture;
-	}
-
-	public void setProfilePicture(String profilePicture) {
-		this.profilePicture = profilePicture;
-	}
-
 	public Role getRole() {
 		return role;
 	}
 
 	public void setRole(Role role) {
 		this.role = role;
+	}
+
+	public Shop getShop() {
+		return shop;
+	}
+
+	public void setShop(Shop shop) {
+		this.shop = shop;
 	}
 }
