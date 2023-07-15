@@ -6,13 +6,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class ArtistShop {
+public class Shop {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	private String name;
 	
 	private String background;
 	
@@ -24,15 +22,7 @@ public class ArtistShop {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
+	
 	public String getBackground() {
 		return background;
 	}
