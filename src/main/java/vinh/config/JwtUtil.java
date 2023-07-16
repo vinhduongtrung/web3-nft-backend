@@ -14,9 +14,9 @@ import io.jsonwebtoken.security.Keys;
 
 public class JwtUtil {
 	
-	SecretKey key = Keys.hmacShaKeyFor(JwtSecurityContext.JWT_KEY.getBytes());
+	static SecretKey key = Keys.hmacShaKeyFor(JwtSecurityContext.JWT_KEY.getBytes());
 	
-	public String generateJwtToken(Authentication authentication) {
+	public static String generateJwtToken(Authentication authentication) {
 		String jwt = Jwts.builder()
 				.setIssuer("vinh")
 				.setIssuedAt(new Date())

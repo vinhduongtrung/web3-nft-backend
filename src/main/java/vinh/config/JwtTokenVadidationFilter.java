@@ -49,6 +49,7 @@ public class JwtTokenVadidationFilter extends OncePerRequestFilter {
 				SecurityContextHolder.getContext().setAuthentication(auth);
 			}
 			catch(Exception e) {
+				System.out.println("JwtTokenVadidationFilter");
 				throw new BadCredentialsException("Invalid Token received");
 			}
 		}
