@@ -20,12 +20,15 @@ public class AppConfiguration {
 	
 	@Bean
 	public SecurityFilterChain appConfig(HttpSecurity http) throws Exception {
+		System.out.println("AppConfiguration");
 		http.sessionManagement()
 		.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 		.and()
 		.authorizeHttpRequests()
 		.requestMatchers(HttpMethod.POST,"/api/auth/**").permitAll()
-		.requestMatchers(HttpMethod.GET,"/swagger-ui/**","/").permitAll()
+		.requestMatchers("/v3/api-docs/**",
+		        "/swagger-ui/**",
+		        "/swagger-ui.html").permitAll()
 		.requestMatchers(HttpMethod.GET,"/ws/**").permitAll()
 		.anyRequest().authenticated()
 		.and()
@@ -55,4 +58,6 @@ public class AppConfiguration {
 		
 		return http.build();
 	}
+	
+	
 }

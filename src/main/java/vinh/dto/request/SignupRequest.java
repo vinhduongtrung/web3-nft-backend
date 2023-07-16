@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 
 public class SignupRequest {
 	
-	private String name;
+	private String username;
 	
 	@NotBlank(message = "Email is required")
 	@Email(message = "Email should be valid")
@@ -15,8 +15,8 @@ public class SignupRequest {
 	
 	
 
-	public String getName() {
-		return name;
+	public String getUsername() {
+		return username;
 	}
 
 	public String getEmail() {
