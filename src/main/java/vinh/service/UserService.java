@@ -1,10 +1,12 @@
 package vinh.service;
 
+import java.util.Optional;
+
 import vinh.entity.User;
 
 public interface UserService {
 	
-	public User findByEmail(String email);
+	public Optional<User> findByEmail(String email);
 	
 	public User findByUsername(String username);
 	

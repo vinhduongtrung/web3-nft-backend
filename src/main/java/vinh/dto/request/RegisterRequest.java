@@ -1,17 +1,16 @@
 package vinh.dto.request;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
+import vinh.entity.Role;
 
-public class SignupRequest {
+public class RegisterRequest {
 	
 	private String username;
 	
-	@NotBlank(message = "Email is required")
-	@Email(message = "Email should be valid")
 	private String email;
 	
 	private String password;
+	
+	private Role role;
 	
 	
 
@@ -25,5 +24,9 @@ public class SignupRequest {
 
 	public String getPassword() {
 		return password;
+	}
+
+	public Role getRole() {
+		return role;
 	}
 }
