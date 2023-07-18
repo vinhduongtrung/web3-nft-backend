@@ -19,6 +19,7 @@ import vinh.service.TokenService;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+	
 	@Autowired
 	private JwtService jwtService;
 	
@@ -31,7 +32,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
-		
 		if (request.getServletPath().contains("/api/v1/auth")) {
 		      filterChain.doFilter(request, response);
 		      return;
@@ -40,12 +40,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		    final String jwt;
 		    final String userEmail;
 		    if (authHeader == null ||!authHeader.startsWith("Bearer ")) {
+		    	System.out.println("no jwt");
 		      filterChain.doFilter(request, response);
 		      return;
 		    }
 		    jwt = authHeader.substring(7);
 		    userEmail = jwtService.extractUsername(jwt);
 		    if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+		    	System.out.println("jwt invalid");
 		      UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
 		      var isTokenValid = tokenService.findByToken(jwt)
 		          .map(t -> !t.isExpired() && !t.isRevoked())
