@@ -1,31 +1,51 @@
 package vinh.controller;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
+import java.io.IOException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping("/api/v1/user")
-public class UserController {
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import vinh.dto.request.AuthenRequest;
+import vinh.dto.request.RegisterRequest;
+import vinh.dto.response.AuthenResponse;
+import vinh.dto.response.UserResponse;
+import vinh.service.UserService;
 
-	@GetMapping("/get")
-	public String get() {
-		return "user";
+@RestController
+@RequestMapping("/api/v1/auth")
+public class UserController {
+	
+	@Autowired
+	private UserService service;
+	
+	@PostMapping("/user/register")
+	  public ResponseEntity<AuthenResponse> register(@RequestBody RegisterRequest request) {
+	    return ResponseEntity.ok(service.register(request));
+	  }
+	@PostMapping("/user/login")
+	  public ResponseEntity<AuthenResponse> login(@RequestBody AuthenRequest request) {
+	    return ResponseEntity.ok(service.authenticate(request));
+	  }
+
+	@PostMapping("/user/refresh-token")
+	  public void refreshToken(HttpServletRequest request,HttpServletResponse response) throws IOException {
+	    service.refreshToken(request, response);
+	  }
+	@PostMapping("/user/logout")
+	public void logout(HttpServletRequest request,HttpServletResponse response) {
+		service.logout(request, response, null);
 	}
 	
-	@PostMapping("/post")
-    public String post() {
-        return "POST:: user controller";
-    }
-    @PutMapping("/put")
-    public String put() {
-        return "PUT:: user controller";
-    }
-    @DeleteMapping("/delete")
-    public String delete() {
-        return "DELETE:: user controller";
-    }
+	@GetMapping("/user/find/{id}")
+	public ResponseEntity<UserResponse> findUserById(@PathVariable("id") Long userId) {
+		return ResponseEntity.ok().body(service.findUserById(userId));
+	}
 }

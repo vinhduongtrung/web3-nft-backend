@@ -74,17 +74,17 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import vinh.service.UserService;
+import vinh.repository.UserRepository;
 
 @Configuration
 public class AppConfiguration {
 	
 	@Autowired
-	private UserService userService;
+	private UserRepository userRepo;
 	
 	@Bean
 	public UserDetailsService userDetailsService() {
-	    return username -> userService.findByEmail(username)
+	    return username -> userRepo.findByEmail(username)
 	        .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 	  }
 

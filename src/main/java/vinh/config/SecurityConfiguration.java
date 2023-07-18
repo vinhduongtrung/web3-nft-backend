@@ -57,12 +57,11 @@ public class SecurityConfiguration {
 
 
 	        .requestMatchers("/api/v1/user/**").hasAnyRole(ARTIST.name(), USER.name())
-
-
-	        .requestMatchers(GET, "/api/v1/user/**").hasAnyAuthority(ARTIST_READ.name(), USER_READ.name())
-	        .requestMatchers(POST, "/api/v1/user/**").hasAnyAuthority(ARTIST_CREATE.name())
-	        .requestMatchers(PUT, "/api/v1/user/**").hasAnyAuthority(ARTIST_UPDATE.name())
-	        .requestMatchers(DELETE, "/api/v1/user/**").hasAnyAuthority(ARTIST_DELETE.name())
+	        
+//	        .requestMatchers(GET, "/api/v1/user/**").hasAnyAuthority(ARTIST_READ.name(), USER_READ.name())
+//	        .requestMatchers(POST, "/api/v1/user/**").hasAnyAuthority(ARTIST_CREATE.name())
+//	        .requestMatchers(PUT, "/api/v1/user/**").hasAnyAuthority(ARTIST_UPDATE.name())
+//	        .requestMatchers(DELETE, "/api/v1/user/**").hasAnyAuthority(ARTIST_DELETE.name())
 
 
 	       /* .requestMatchers("/api/v1/admin/**").hasRole(ADMIN.name())
