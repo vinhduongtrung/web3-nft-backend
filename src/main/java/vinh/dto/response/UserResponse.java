@@ -16,7 +16,7 @@ public class UserResponse {
 
 	
 	public UserResponse(User user) {
-		this.username = user.getUsername();
+		this.username = user.getName();
 		this.email = user.getEmail();
 		this.password = user.getPassword();
 		this.profilePicture = user.getProfilePicture();

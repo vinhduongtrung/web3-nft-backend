@@ -18,7 +18,7 @@ public class NftItem {
 	
 	@MapsId("artist_id")
 	@ManyToOne
-	private Artist artist;
+	private User artist;
 	
 	@ManyToOne
 	private Shop shop;
@@ -54,12 +54,12 @@ public class NftItem {
 		this.nft = nft;
 	}
 
-	public Artist getArtist() {
+	public User getArtist() {
 		return artist;
 	}
 
 
-	public void setArtist(Artist artist) {
+	public void setArtist(User artist) {
 		this.artist = artist;
 	}
 	

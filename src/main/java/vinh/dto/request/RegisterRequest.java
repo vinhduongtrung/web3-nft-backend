@@ -1,6 +1,5 @@
 package vinh.dto.request;
 
-import vinh.entity.Role;
 
 public class RegisterRequest {
 	
@@ -9,8 +8,6 @@ public class RegisterRequest {
 	private String email;
 	
 	private String password;
-	
-	private Role role;
 	
 	
 
@@ -24,9 +21,5 @@ public class RegisterRequest {
 
 	public String getPassword() {
 		return password;
-	}
-
-	public Role getRole() {
-		return role;
 	}
 }
