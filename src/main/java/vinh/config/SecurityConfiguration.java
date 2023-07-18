@@ -1,17 +1,4 @@
 package vinh.config;
-import static vinh.entity.Role.ARTIST;
-import static vinh.entity.Role.USER;
-
-import static vinh.entity.Permission.ARTIST_READ;
-import static vinh.entity.Permission.ARTIST_UPDATE;
-import static vinh.entity.Permission.ARTIST_CREATE;
-import static vinh.entity.Permission.ARTIST_DELETE;
-import static vinh.entity.Permission.USER_READ;
-
-import static org.springframework.http.HttpMethod.DELETE;
-import static org.springframework.http.HttpMethod.GET;
-import static org.springframework.http.HttpMethod.POST;
-import static org.springframework.http.HttpMethod.PUT;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -23,16 +10,19 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
 
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
 	
-//	@Autowired
-//	private JwtAuthenticationFilter jwtAuthFilter;
-//	@Autowired
-//	private AuthenticationProvider authenticationProvider;
+	@Autowired
+	private JwtAuthenticationFilter jwtAuthFilter;
+	@Autowired
+	private AuthenticationProvider authenticationProvider;
+	@Autowired
+	private LogoutHandler logoutHandler;
 	
 	@Bean
 	  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -56,7 +46,7 @@ public class SecurityConfiguration {
 	          .permitAll()
 
 
-	        .requestMatchers("/api/v1/user/**").hasAnyRole(ARTIST.name(), USER.name())
+//	        .requestMatchers("/api/v1/user/**").hasAnyRole(ARTIST.name(), USER.name())
 	        
 //	        .requestMatchers(GET, "/api/v1/user/**").hasAnyAuthority(ARTIST_READ.name(), USER_READ.name())
 //	        .requestMatchers(POST, "/api/v1/user/**").hasAnyAuthority(ARTIST_CREATE.name())
@@ -77,13 +67,13 @@ public class SecurityConfiguration {
 	        .and()
 	          .sessionManagement()
 	          .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//	        .and()
-//	        .authenticationProvider(authenticationProvider)
-//	        .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-//	        .logout()
-//	        .logoutUrl("/api/v1/auth/logout")
-//	        .addLogoutHandler(logoutHandler)
-//	        .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
+	        .and()
+	        .authenticationProvider(authenticationProvider)
+	        .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+	        .logout()
+	        .logoutUrl("/api/v1/user/logout")
+	        .addLogoutHandler(logoutHandler)
+	        .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
 	    ;
 
 	    return http.build();
