@@ -10,7 +10,7 @@ public class AddNFTRequest {
 	
 	private double price;
 	
-	private Long categoryId;
+	private String categoryName;
 	
 	
 
@@ -31,7 +31,7 @@ public class AddNFTRequest {
 		return price;
 	}
 
-	public Long getCategoryId() {
-		return categoryId;
+	public String getCategoryName() {
+		return categoryName;
 	}
 }

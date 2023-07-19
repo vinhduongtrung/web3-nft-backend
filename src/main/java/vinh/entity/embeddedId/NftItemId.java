@@ -14,6 +14,16 @@ public class NftItemId implements Serializable{
 	
 	public Long user_id;
 
+	
+	
+	public NftItemId() {
+	}
+
+	public NftItemId(Long nft_id, Long user_id) {
+		this.nft_id = nft_id;
+		this.user_id = user_id;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(nft_id, user_id);
