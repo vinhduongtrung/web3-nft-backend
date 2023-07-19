@@ -19,16 +19,15 @@ public class NftItem {
 	@MapsId("user_id")
 	@ManyToOne
 	private User user;
-	
-	
+
 	private int sold;
+	
+	
 	
 	
 	public NftItemId getId() {
 		return id;
 	}
-
-
 	public void setId(NftItemId id) {
 		this.id = id;
 	}

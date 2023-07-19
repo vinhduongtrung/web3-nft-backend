@@ -21,7 +21,7 @@ public class CategoryController {
 	@Autowired
 	private CategoryService categoryService;
 	
-	@PostMapping("/addCategories")
+	@PostMapping("/add")
 	public void addCategories(@RequestBody List<AddCategoryRequest> requests) {
 		categoryService.addCategories(requests);
 	}
