@@ -13,6 +13,10 @@ public class Category {
 	private Long id;
 	
 	private String name;
+	
+	private String icon;
+	
+	private String cover;
 
 	public Long getId() {
 		return id;
@@ -29,6 +33,20 @@ public class Category {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	
+
+	public String getIcon() {
+		return icon;
+	}
+
+	public void setIcon(String icon) {
+		this.icon = icon;
+	}
+
+	public String getCover() {
+		return cover;
+	}
+
+	public void setCover(String cover) {
+		this.cover = cover;
+	}
 }

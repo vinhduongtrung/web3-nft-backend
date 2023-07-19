@@ -16,14 +16,12 @@ public class NftItem {
 	@ManyToOne
 	private Nft nft;
 	
-	@MapsId("artist_id")
+	@MapsId("user_id")
 	@ManyToOne
-	private User artist;
+	private User user;
 	
-	@ManyToOne
-	private Shop shop;
 	
-	private double revenue;
+	private int sold;
 	
 	
 	public NftItemId getId() {
@@ -40,35 +38,27 @@ public class NftItem {
 		return nft;
 	}
 
-	public Shop getShop() {
-		return shop;
-	}
-
-
-	public void setShop(Shop shop) {
-		this.shop = shop;
-	}
-
 
 	public void setNft(Nft nft) {
 		this.nft = nft;
 	}
 
-	public User getArtist() {
-		return artist;
+	public User getUser() {
+		return user;
 	}
 
 
-	public void setArtist(User artist) {
-		this.artist = artist;
-	}
-	
-	public double getRevenue() {
-		return revenue;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 
-	public void setRevenue(double revenue) {
-		this.revenue = revenue;
-	}	
+	public int getSold() {
+		return sold;
+	}
+
+
+	public void setSold(int sold) {
+		this.sold = sold;
+	}
 }

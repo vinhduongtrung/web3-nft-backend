@@ -1,5 +1,6 @@
 package vinh.entity;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -8,20 +9,18 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
 
 @Entity
 public class User implements UserDetails {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -40,9 +39,10 @@ public class User implements UserDetails {
 	@Enumerated(EnumType.STRING)
 	private Role role;
 	
-	@OneToOne
-	private Shop shop;
+	private String bio;
 	
+	@ElementCollection(targetClass = String.class, fetch = FetchType.LAZY)
+	private List<String> socialLinks = new ArrayList<>();
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -87,16 +87,25 @@ public class User implements UserDetails {
 
 	
 	
-	
-	
 
-	public Shop getShop() {
-		return shop;
+
+	public String getBio() {
+		return bio;
 	}
 
 
-	public void setShop(Shop shop) {
-		this.shop = shop;
+	public void setBio(String bio) {
+		this.bio = bio;
+	}
+
+
+	public List<String> getSocialLinks() {
+		return socialLinks;
+	}
+
+
+	public void setSocialLinks(List<String> socialLinks) {
+		this.socialLinks = socialLinks;
 	}
 
 
