@@ -1,5 +1,8 @@
 package vinh.config;
 
+import java.util.Arrays;
+import java.util.Collections;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +14,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 
 @Configuration
@@ -24,6 +31,7 @@ public class SecurityConfiguration {
 	@Autowired
 	private LogoutHandler logoutHandler;
 	
+	@SuppressWarnings("removal")
 	@Bean
 	  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 	    http
@@ -44,26 +52,33 @@ public class SecurityConfiguration {
 	                "/swagger-ui.html"
 	        )
 	          .permitAll()
-
-
-//	        .requestMatchers("/api/v1/user/**").hasAnyRole(ARTIST.name(), USER.name())
-	        
-//	        .requestMatchers(GET, "/api/v1/user/**").hasAnyAuthority(ARTIST_READ.name(), USER_READ.name())
-//	        .requestMatchers(POST, "/api/v1/user/**").hasAnyAuthority(ARTIST_CREATE.name())
-//	        .requestMatchers(PUT, "/api/v1/user/**").hasAnyAuthority(ARTIST_UPDATE.name())
-//	        .requestMatchers(DELETE, "/api/v1/user/**").hasAnyAuthority(ARTIST_DELETE.name())
-
-
-	       /* .requestMatchers("/api/v1/admin/**").hasRole(ADMIN.name())
-
-	        .requestMatchers(GET, "/api/v1/admin/**").hasAuthority(ADMIN_READ.name())
-	        .requestMatchers(POST, "/api/v1/admin/**").hasAuthority(ADMIN_CREATE.name())
-	        .requestMatchers(PUT, "/api/v1/admin/**").hasAuthority(ADMIN_UPDATE.name())
-	        .requestMatchers(DELETE, "/api/v1/admin/**").hasAuthority(ADMIN_DELETE.name())*/
-
-
+	  	
 	        .anyRequest()
 	          .authenticated()
+	          .and()
+		  		.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+		  		.csrf().disable()
+		  		.cors()
+		  		.configurationSource(new CorsConfigurationSource() {
+		  			
+		  			@Override
+		  			public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
+		  				CorsConfiguration cfg = new CorsConfiguration();
+		  				cfg.setAllowedOrigins(Arrays.asList(
+		  					"http://localhost:5173"
+		  				));
+		  				cfg.setAllowedMethods(Collections.singletonList("*"));
+		  				cfg.setAllowCredentials(true);
+		  				cfg.setAllowedHeaders(Collections.singletonList("*"));
+		  				cfg.setExposedHeaders(Arrays.asList("Authorization"));
+		  				cfg.setMaxAge(3600L);
+		  				return cfg;
+		  			}
+		  		})
+		  		.and()
+				.httpBasic()
+				.and()
+				.formLogin()
 	        .and()
 	          .sessionManagement()
 	          .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
