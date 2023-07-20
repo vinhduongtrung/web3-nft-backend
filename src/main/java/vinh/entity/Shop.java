@@ -19,8 +19,6 @@ public class Shop {
 	
 	private int sold;
 	
-	private int followers;
-	
 	@OneToOne
 	private User user;
 
@@ -56,14 +54,6 @@ public class Shop {
 
 	public void setSold(int sold) {
 		this.sold = sold;
-	}
-
-	public int getFollowers() {
-		return followers;
-	}
-
-	public void setFollowers(int followers) {
-		this.followers = followers;
 	}
 
 	public User getUser() {

@@ -41,6 +41,8 @@ public class User implements UserDetails {
 	
 	private String bio;
 	
+	private int follow;
+	
 	@ElementCollection(targetClass = String.class, fetch = FetchType.LAZY)
 	private List<String> socialLinks = new ArrayList<>();
 	
@@ -87,6 +89,16 @@ public class User implements UserDetails {
 
 	
 	
+
+
+	public int getFollow() {
+		return follow;
+	}
+
+
+	public void setFollow(int follow) {
+		this.follow = follow;
+	}
 
 
 	public String getBio() {
