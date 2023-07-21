@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import vinh.dto.response.IArtistInfo;
 import vinh.dto.response.IShopInfo;
+import vinh.dto.response.IUserInfo;
 import vinh.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
@@ -21,4 +22,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	
 	@Query("select s from Shop s where s.user.username = ?1")
 	public IShopInfo getShopInfo(String username);
+	
+	@Query("select u from User u where u.username = ?1")
+	public IUserInfo getUserInfo(String username);
 }
