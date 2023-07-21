@@ -3,12 +3,15 @@ package vinh.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import vinh.dto.request.AddNFTRequest;
+import vinh.dto.response.NFTResponse;
 import vinh.service.NFTItemService;
 
 @RestController
@@ -21,5 +24,11 @@ public class NFTItemController {
 	@PostMapping("/add")
 	public void addNFT(@RequestBody List<AddNFTRequest> items) {
 		nftItemService.add(items);
+	}
+	
+	@GetMapping("/findAllByUserName/{username}")
+	public NFTResponse findAllByUserName(@PathVariable("username") String username) {
+		NFTResponse response = nftItemService.findAllByUserName(username);
+		return response;
 	}
 }

@@ -1,11 +1,15 @@
 package vinh.serviceImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import vinh.dto.request.AddNFTRequest;
+import vinh.dto.response.INFT;
+import vinh.dto.response.INftItem;
+import vinh.dto.response.NFTResponse;
 import vinh.entity.Category;
 import vinh.entity.Nft;
 import vinh.entity.NftItem;
@@ -60,6 +64,26 @@ public class NFTItemServiceImpl implements NFTItemService {
 			
 		}
 		
+	}
+
+
+	@Override
+	public NFTResponse findAllByUserName(String username) {
+		User user = userRepository.findByUsername(username);
+		Long userId = user.getId();
+		List<INftItem> items = nftItemRepository.findAllByUserId(userId);
+		NFTResponse response = new NFTResponse();
+		response.setUsername(username);
+		response.setProfilePicture(user.getProfilePicture());
+		List<INFT> list = new ArrayList<>();
+		for(INftItem item : items) {
+			Long nftId = item.getNftId();
+			
+			INFT nft = nftRepository.getNftById(nftId);
+			list.add(nft);
+		}
+		response.setNft(list);
+		return response;
 	}
 
 }

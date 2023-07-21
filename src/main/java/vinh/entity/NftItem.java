@@ -23,7 +23,13 @@ public class NftItem {
 	private int sold;
 	
 	
+	public Long getUserId() {
+		return user.getId();
+	}
 	
+	public Long getNftId() {
+		return nft.getId();
+	}
 	
 	public NftItemId getId() {
 		return id;
