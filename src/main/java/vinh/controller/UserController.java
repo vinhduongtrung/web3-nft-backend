@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import vinh.dto.request.UpdateUserRequest;
 import vinh.dto.response.ArtistInfoResponse;
+import vinh.dto.response.TopUserResponse;
 import vinh.dto.response.UserResponse;
 import vinh.service.UserService;
 
@@ -44,5 +45,10 @@ public class UserController {
 	@PostMapping("/update")
 	public void updateUser(@RequestBody List<UpdateUserRequest> requests) {
 		userService.updateUser(requests);
+	}
+	
+	@GetMapping("/getTopUser/{limit}")
+	public List<TopUserResponse> getTopUserByQuantitySold(@PathVariable("limit") int limit) {
+		return userService.getTopUserByQuantitySold(limit);
 	}
 }

@@ -26,10 +26,12 @@ public class NFTItemController {
 		nftItemService.add(items);
 	}
 	
-	@GetMapping("/findAllByUserName/{username}/{page}/{count}")
-	public NFTResponse findAllByUserName(@PathVariable("username") String username,
-			@PathVariable("page") int page, @PathVariable("count") int count) {
-		NFTResponse response = nftItemService.findAllByUserName(username, page, count);
+	@GetMapping("/findAllByUserName/{username}/{page}/{limit}")
+	public NFTResponse findAllByUserName(
+			@PathVariable("username") String username,
+			@PathVariable("page") int page,
+			@PathVariable("count") int limit) {
+		NFTResponse response = nftItemService.findAllByUserName(username, page, limit);
 		return response;
 	}
 }
