@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import vinh.dto.request.AddNFTRequest;
@@ -39,6 +41,7 @@ public class NFTItemServiceImpl implements NFTItemService {
 	
 	@Override
 	public void add(List<AddNFTRequest> items) {
+		System.out.println("ok");
 		for(AddNFTRequest item : items) {
 			Long userId = item.getUserId();
 			User user = userRepository.findById(userId).get();
@@ -50,7 +53,10 @@ public class NFTItemServiceImpl implements NFTItemService {
 			Nft nft = new Nft();
 			nft.setName(item.getName());
 			nft.setImage(item.getImage());
-			nft.setPrice(item.getPrice());
+			String s = item.getPrice();
+			double d = Double.valueOf(s);
+			nft.setPrice(Double.valueOf(d));
+			
 			nft.setCategory(category);
 			Nft savedNFT = nftRepository.save(nft);
 			
@@ -68,10 +74,15 @@ public class NFTItemServiceImpl implements NFTItemService {
 
 
 	@Override
-	public NFTResponse findAllByUserName(String username) {
+	public NFTResponse findAllByUserName(String username, int page, int count) {
 		User user = userRepository.findByUsername(username);
 		Long userId = user.getId();
-		List<INftItem> items = nftItemRepository.findAllByUserId(userId);
+		
+		Pageable pageable = PageRequest.of(page - 1, count);
+		List<INftItem> items = nftItemRepository.findAllByUserId(userId,pageable);
+		
+		
+		
 		NFTResponse response = new NFTResponse();
 		response.setUsername(username);
 		response.setProfilePicture(user.getProfilePicture());
