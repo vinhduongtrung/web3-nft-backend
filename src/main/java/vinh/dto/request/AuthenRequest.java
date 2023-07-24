@@ -12,4 +12,10 @@ public class AuthenRequest {
 	public String getPassword() {
 		return password;
 	}
+	@Override
+	public String toString() {
+		return "AuthenRequest [email=" + email + ", password=" + password + "]";
+	}
+	
+	
 }

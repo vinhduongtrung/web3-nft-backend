@@ -1,5 +1,7 @@
 package vinh.serviceImpl;
 
+import static vinh.entity.Role.USER;
+
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +19,14 @@ import vinh.config.JwtService;
 import vinh.dto.request.AuthenRequest;
 import vinh.dto.request.RegisterRequest;
 import vinh.dto.response.AuthenResponse;
+import vinh.entity.Shop;
 import vinh.entity.User;
 import vinh.entity.token.Token;
 import vinh.entity.token.TokenType;
+import vinh.repository.ShopRepository;
 import vinh.repository.TokenRepository;
 import vinh.repository.UserRepository;
 import vinh.service.AuthenService;
-import static vinh.entity.Role.USER;
 
 @Service
 public class AuthenServiceImpl implements AuthenService {
@@ -37,6 +40,8 @@ public class AuthenServiceImpl implements AuthenService {
 	private PasswordEncoder passwordEncoder;
 	@Autowired
 	private AuthenticationManager authenticationManager;
+	@Autowired
+	private ShopRepository shopRepository;
 
 	@Override
 	public AuthenResponse register(RegisterRequest request) {
@@ -47,11 +52,16 @@ public class AuthenServiceImpl implements AuthenService {
 		user.setRole(USER);
 		
 		User savedUser = repository.save(user);
+		Shop shop = new Shop();
+		shop.setUser(savedUser);
+		shop.setBackground("https://cdn.animaapp.com/projects/63aaf7e2426e9824f0350c11/releases/63aaf8f2426e9824f0350c13/img/image-placeholder-7@1x.png");
+		shopRepository.save(shop);
 		
 		String jwtToken = jwtService.generateToken(user);
 		String refreshToken = jwtService.generateRefreshToken(user);
 		saveUserToken(savedUser, jwtToken);
-		return new AuthenResponse(jwtToken, refreshToken);
+		
+		return new AuthenResponse(user.getId(),user.getName(),jwtToken, refreshToken);
 	}
 
 	@Override
@@ -67,7 +77,7 @@ public class AuthenServiceImpl implements AuthenService {
 		String refreshToken = jwtService.generateRefreshToken(user);
 		revokeAllUserTokens(user);
 		saveUserToken(user, jwtToken);
-		return new AuthenResponse(jwtToken, refreshToken);
+		return new AuthenResponse(user.getId(),user.getName(),jwtToken, refreshToken);
 	}
 	
 	@Override
@@ -87,7 +97,7 @@ public class AuthenServiceImpl implements AuthenService {
 	        String accessToken = jwtService.generateToken(user);
 	        revokeAllUserTokens(user);
 	        saveUserToken(user, accessToken);
-	        AuthenResponse authResponse = new AuthenResponse(accessToken, refreshToken);
+	        AuthenResponse authResponse = new AuthenResponse(user.getId(),user.getName(),accessToken, refreshToken);
 	               
 	        new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
 	      }

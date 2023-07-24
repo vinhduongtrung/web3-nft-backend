@@ -4,6 +4,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class AuthenResponse {
 
+	private Long id;
+	
+	private String username;
+	
 	@JsonProperty("access_token")
 	private String accessToken;
 	
@@ -12,7 +16,9 @@ public class AuthenResponse {
 	
 	
 	
-	public AuthenResponse(String accessToken, String refreshToken) {
+	public AuthenResponse(Long id, String username, String accessToken, String refreshToken) {
+		this.id = id;
+		this.username = username;
 		this.accessToken = accessToken;
 		this.refreshToken = refreshToken;
 	}
@@ -24,4 +30,13 @@ public class AuthenResponse {
 	public String getRefreshToken() {
 		return refreshToken;
 	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+	
 }

@@ -3,7 +3,6 @@ package vinh.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,8 +26,8 @@ public class CategoryController {
 	}
 	
 	@GetMapping("/getAll")
-	public ResponseEntity<List<CategoryResponse>> getCategories() {
-		return null;
+	public List<CategoryResponse> getCategories() {
+		return categoryService.getCategories();
 		
 	}
 }

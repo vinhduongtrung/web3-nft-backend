@@ -29,6 +29,7 @@ public class AuthenController {
 	  }
 	@PostMapping("/login")
 	  public ResponseEntity<AuthenResponse> login(@RequestBody AuthenRequest request) {
+		System.out.println(request);
 	    return ResponseEntity.ok(authenService.authenticate(request));
 	  }
 
