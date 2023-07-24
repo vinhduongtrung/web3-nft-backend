@@ -74,11 +74,11 @@ public class NFTItemServiceImpl implements NFTItemService {
 
 
 	@Override
-	public NFTResponse findAllByUserName(String username, int page, int count) {
+	public NFTResponse findAllByUserName(String username, int page, int limit) {
 		User user = userRepository.findByUsername(username);
 		Long userId = user.getId();
 		
-		Pageable pageable = PageRequest.of(page - 1, count);
+		Pageable pageable = PageRequest.of(page - 1, limit);
 		List<INftItem> items = nftItemRepository.findAllByUserId(userId,pageable);
 		
 		

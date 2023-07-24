@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import vinh.dto.request.UpdateUserRequest;
 import vinh.dto.response.ArtistInfoResponse;
+import vinh.dto.response.TopUserResponse;
 import vinh.dto.response.UserResponse;
 import vinh.entity.User;
 
@@ -23,4 +24,6 @@ public interface UserService {
 	public ArtistInfoResponse getArtistInfo(String username);
 	
 	public void updateUser(List<UpdateUserRequest> requests);
+	
+	public List<TopUserResponse> getTopUserByQuantitySold(int limit);
 }

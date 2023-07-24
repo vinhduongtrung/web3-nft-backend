@@ -1,9 +1,11 @@
 package vinh.serviceImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
@@ -15,6 +17,7 @@ import vinh.dto.request.UpdateUserRequest;
 import vinh.dto.response.ArtistInfoResponse;
 import vinh.dto.response.IArtistInfo;
 import vinh.dto.response.IShopInfo;
+import vinh.dto.response.TopUserResponse;
 import vinh.dto.response.UserResponse;
 import vinh.entity.User;
 import vinh.repository.TokenRepository;
@@ -84,5 +87,19 @@ public class UserServiceImpl implements UserService, LogoutHandler {
 			userRepository.save(savedUser);
 		}
 		
+	}
+
+	@Override
+	public List<TopUserResponse> getTopUserByQuantitySold(int limit) {
+		List<Object[]> results = userRepository.findTopUserByQuantitySold(PageRequest.of(0, limit));
+		List<TopUserResponse> response = new ArrayList<>();
+		for(Object[] result : results) {
+			String username = (String) result[0];
+			String profile = (String) result[1];
+			int totalSales = (Integer) result[2];
+			TopUserResponse user = new TopUserResponse(username, profile, totalSales);
+			response.add(user);
+		}
+		return response;
 	}
 }

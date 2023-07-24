@@ -9,5 +9,5 @@ public interface NFTItemService {
 	
 	public void add(List<AddNFTRequest> items);
 	
-	public NFTResponse findAllByUserName(String username, int page, int count);
+	public NFTResponse findAllByUserName(String username, int page, int limit);
 }
