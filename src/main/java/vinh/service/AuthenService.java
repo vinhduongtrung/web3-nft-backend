@@ -1,9 +1,11 @@
 package vinh.service;
 
 import java.io.IOException;
+import java.util.List;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import vinh.dto.request.AddUserRequest;
 import vinh.dto.request.AuthenRequest;
 import vinh.dto.request.RegisterRequest;
 import vinh.dto.response.AuthenResponse;
@@ -20,4 +22,6 @@ public interface AuthenService {
 	public void saveUserToken(User user, String jwtToken);
 	
 	public void revokeAllUserTokens(User user);
+	
+	public void insertDummyUser(List<AddUserRequest> requests);
 }

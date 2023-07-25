@@ -19,8 +19,6 @@ public class NftItem {
 	@MapsId("user_id")
 	@ManyToOne
 	private User user;
-
-	private int sold;
 	
 	
 	public Long getUserId() {
@@ -55,15 +53,5 @@ public class NftItem {
 
 	public void setUser(User user) {
 		this.user = user;
-	}
-
-
-	public int getSold() {
-		return sold;
-	}
-
-
-	public void setSold(int sold) {
-		this.sold = sold;
 	}
 }
