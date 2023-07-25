@@ -49,6 +49,6 @@ public class UserController {
 	
 	@GetMapping("/getTopUser/{limit}")
 	public List<TopUserResponse> getTopUserByQuantitySold(@PathVariable("limit") int limit) {
-		return userService.getTopUserByQuantitySold(limit);
+		return userService.findTopUserByTotalSales(limit);
 	}
 }

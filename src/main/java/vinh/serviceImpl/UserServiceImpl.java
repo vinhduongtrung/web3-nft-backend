@@ -90,8 +90,8 @@ public class UserServiceImpl implements UserService, LogoutHandler {
 	}
 
 	@Override
-	public List<TopUserResponse> getTopUserByQuantitySold(int limit) {
-		List<Object[]> results = userRepository.findTopUserByQuantitySold(PageRequest.of(0, limit));
+	public List<TopUserResponse> findTopUserByTotalSales(int limit) {
+		List<Object[]> results = userRepository.findTopUserByTotalSales(PageRequest.of(0, limit));
 		List<TopUserResponse> response = new ArrayList<>();
 		for(Object[] result : results) {
 			String username = (String) result[0];

@@ -1,6 +1,7 @@
 package vinh.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import vinh.dto.request.AddUserRequest;
 import vinh.dto.request.AuthenRequest;
 import vinh.dto.request.RegisterRequest;
 import vinh.dto.response.AuthenResponse;
@@ -27,9 +29,12 @@ public class AuthenController {
 	  public ResponseEntity<AuthenResponse> register(@RequestBody RegisterRequest request) {
 	    return ResponseEntity.ok(authenService.register(request));
 	  }
+	@PostMapping("/insertDummyUser")
+	  public void insertDummyUser(@RequestBody List<AddUserRequest> requests) {
+	    authenService.insertDummyUser(requests);
+	  }
 	@PostMapping("/login")
 	  public ResponseEntity<AuthenResponse> login(@RequestBody AuthenRequest request) {
-		System.out.println(request);
 	    return ResponseEntity.ok(authenService.authenticate(request));
 	  }
 

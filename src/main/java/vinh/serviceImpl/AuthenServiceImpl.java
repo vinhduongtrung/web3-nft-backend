@@ -3,6 +3,7 @@ package vinh.serviceImpl;
 import static vinh.entity.Role.USER;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import vinh.config.JwtService;
+import vinh.dto.request.AddUserRequest;
 import vinh.dto.request.AuthenRequest;
 import vinh.dto.request.RegisterRequest;
 import vinh.dto.response.AuthenResponse;
@@ -125,4 +127,28 @@ public class AuthenServiceImpl implements AuthenService {
 	    });
 	    tokenRepository.saveAll(validUserTokens);
 	  }
+	
+	
+	@Override
+	public void insertDummyUser(List<AddUserRequest> requests) {
+		for(AddUserRequest request : requests) {
+			User user = new User();
+			user.setUsername(request.getUsername());
+			user.setEmail(request.getEmail());
+			user.setPassword(passwordEncoder.encode(request.getPassword()));
+			user.setBio(request.getBio());
+			user.setProfilePicture(request.getProfilePicture());
+			user.setRole(USER);
+			
+			User savedUser = repository.save(user);
+			Shop shop = new Shop();
+			shop.setUser(savedUser);
+			shop.setBackground("https://cdn.animaapp.com/projects/63aaf7e2426e9824f0350c11/releases/63aaf8f2426e9824f0350c13/img/image-placeholder-7@1x.png");
+			shop.setVolume(request.getVolume());
+			shopRepository.save(shop);
+			
+			String jwtToken = jwtService.generateToken(user);
+			saveUserToken(savedUser, jwtToken);
+		}
+	}
 }

@@ -2,6 +2,7 @@ package vinh.serviceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -12,6 +13,7 @@ import vinh.dto.request.AddNFTRequest;
 import vinh.dto.response.INFT;
 import vinh.dto.response.INftItem;
 import vinh.dto.response.NFTResponse;
+import vinh.dto.response.NftItemResponse;
 import vinh.entity.Category;
 import vinh.entity.Nft;
 import vinh.entity.NftItem;
@@ -41,7 +43,6 @@ public class NFTItemServiceImpl implements NFTItemService {
 	
 	@Override
 	public void add(List<AddNFTRequest> items) {
-		System.out.println("ok");
 		for(AddNFTRequest item : items) {
 			Long userId = item.getUserId();
 			User user = userRepository.findById(userId).get();
@@ -81,8 +82,6 @@ public class NFTItemServiceImpl implements NFTItemService {
 		Pageable pageable = PageRequest.of(page - 1, limit);
 		List<INftItem> items = nftItemRepository.findAllByUserId(userId,pageable);
 		
-		
-		
 		NFTResponse response = new NFTResponse();
 		response.setUsername(username);
 		response.setProfilePicture(user.getProfilePicture());
@@ -96,5 +95,38 @@ public class NFTItemServiceImpl implements NFTItemService {
 		response.setNft(list);
 		return response;
 	}
+
+
+	@Override
+	public List<NftItemResponse> getNftByRandomUser(int limit) {
+		long totalUsers = userRepository.count();
+		if(totalUsers == 0) {
+			return null;
+		}
+		List<NftItemResponse> result = new ArrayList<>();
+		for(int i = 0; i < limit; i++) {
+			User user = getRandomUser(totalUsers);
+			System.out.println(user.getId());
+			INFT item = nftRepository.getNftById(user.getId());
+			NftItemResponse response = new NftItemResponse();
+			response.setUsername(user.getName());
+			response.setProfilePicture(user.getProfilePicture());
+			response.setImage(item.getImage());
+			response.setNftName(item.getName());
+			response.setBid(item.getBid());
+			
+			result.add(response);
+		}
+		
+		return result;
+	}
+	
+	private User getRandomUser(long totalUsers) {
+        Random random = new Random();
+        int randomIndex = random.nextInt((int) totalUsers);
+        Pageable pageable = PageRequest.of(randomIndex, 1);
+        List<User> users = userRepository.findAll(pageable).getContent();
+        return users.get(0);
+    }
 
 }

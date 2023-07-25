@@ -19,6 +19,10 @@ public class Nft {
 	
 	private double price;
 	
+	private int sold;
+	
+	private double bid;
+	
 	
 	@ManyToOne
 	private Category category;
@@ -62,5 +66,21 @@ public class Nft {
 
 	public void setCategory(Category category) {
 		this.category = category;
+	}
+
+	public int getSold() {
+		return sold;
+	}
+
+	public void setSold(int sold) {
+		this.sold = sold;
+	}
+
+	public double getBid() {
+		return bid;
+	}
+
+	public void setBid(double bid) {
+		this.bid = bid;
 	}
 }

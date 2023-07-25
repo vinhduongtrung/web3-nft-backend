@@ -7,4 +7,6 @@ public interface INFT {
 	public String getName();
 	
 	public double getPrice();
+	
+	public double getBid();
 }
