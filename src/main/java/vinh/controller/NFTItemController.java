@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import vinh.dto.request.AddNFTRequest;
 import vinh.dto.response.NFTResponse;
 import vinh.dto.response.NftItemResponse;
+import vinh.dto.response.TrendingResponse;
 import vinh.service.NFTItemService;
 
 @RestController
@@ -41,4 +42,9 @@ public class NFTItemController {
 		return nftItemService.getNftByRandomUser(limit);
 	}
 	
+	@GetMapping("/getTrendingNft/{limit}")
+	public List<TrendingResponse> getTrendingNft(@PathVariable("limit") int limit) {
+		List<TrendingResponse> response = nftItemService.getTop3NftByRandomUser(limit);
+		return response;
+	}
 }

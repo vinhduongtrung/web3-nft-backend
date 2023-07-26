@@ -7,11 +7,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 
 @Entity
-public class Shop {
+public class Collection {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	private String name;
 	
 	private String background;
 	
@@ -62,5 +64,13 @@ public class Shop {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }
