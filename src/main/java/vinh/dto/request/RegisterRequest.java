@@ -9,6 +9,8 @@ public class RegisterRequest {
 	
 	private String password;
 	
+	private String repeat;
+	
 	
 
 	public String getUsername() {
@@ -22,4 +24,15 @@ public class RegisterRequest {
 	public String getPassword() {
 		return password;
 	}
+
+	public String getRepeat() {
+		return repeat;
+	}
+
+	@Override
+	public String toString() {
+		return "RegisterRequest [username=" + username + ", email=" + email + ", password=" + password + ", repeat="
+				+ repeat + "]";
+	}
+	
 }

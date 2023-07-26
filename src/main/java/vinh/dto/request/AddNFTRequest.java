@@ -8,7 +8,7 @@ public class AddNFTRequest {
 	
 	private String image;
 	
-	private String price;
+	private double price;
 	
 	private String categoryName;
 	
@@ -27,7 +27,7 @@ public class AddNFTRequest {
 		return image;
 	}
 
-	public String getPrice() {
+	public double getPrice() {
 		return price;
 	}
 

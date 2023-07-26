@@ -21,11 +21,11 @@ import vinh.dto.request.AddUserRequest;
 import vinh.dto.request.AuthenRequest;
 import vinh.dto.request.RegisterRequest;
 import vinh.dto.response.AuthenResponse;
-import vinh.entity.Shop;
+import vinh.entity.Collection;
 import vinh.entity.User;
 import vinh.entity.token.Token;
 import vinh.entity.token.TokenType;
-import vinh.repository.ShopRepository;
+import vinh.repository.CollectionRepository;
 import vinh.repository.TokenRepository;
 import vinh.repository.UserRepository;
 import vinh.service.AuthenService;
@@ -43,10 +43,11 @@ public class AuthenServiceImpl implements AuthenService {
 	@Autowired
 	private AuthenticationManager authenticationManager;
 	@Autowired
-	private ShopRepository shopRepository;
+	private CollectionRepository collectionRepository;
 
 	@Override
 	public AuthenResponse register(RegisterRequest request) {
+		System.out.println(request);
 		User user = new User();
 		user.setUsername(request.getUsername());
 		user.setEmail(request.getEmail());
@@ -54,10 +55,10 @@ public class AuthenServiceImpl implements AuthenService {
 		user.setRole(USER);
 		
 		User savedUser = repository.save(user);
-		Shop shop = new Shop();
-		shop.setUser(savedUser);
-		shop.setBackground("https://cdn.animaapp.com/projects/63aaf7e2426e9824f0350c11/releases/63aaf8f2426e9824f0350c13/img/image-placeholder-7@1x.png");
-		shopRepository.save(shop);
+		Collection collection = new Collection();
+		collection.setUser(savedUser);
+		collection.setBackground("https://cdn.animaapp.com/projects/63aaf7e2426e9824f0350c11/releases/63aaf8f2426e9824f0350c13/img/image-placeholder-7@1x.png");
+		collectionRepository.save(collection);
 		
 		String jwtToken = jwtService.generateToken(user);
 		String refreshToken = jwtService.generateRefreshToken(user);
@@ -141,11 +142,12 @@ public class AuthenServiceImpl implements AuthenService {
 			user.setRole(USER);
 			
 			User savedUser = repository.save(user);
-			Shop shop = new Shop();
-			shop.setUser(savedUser);
-			shop.setBackground("https://cdn.animaapp.com/projects/63aaf7e2426e9824f0350c11/releases/63aaf8f2426e9824f0350c13/img/image-placeholder-7@1x.png");
-			shop.setVolume(request.getVolume());
-			shopRepository.save(shop);
+			Collection collection = new Collection();
+			collection.setUser(savedUser);
+			collection.setName(request.getUsername() + " collection");
+			collection.setBackground("https://cdn.animaapp.com/projects/63aaf7e2426e9824f0350c11/releases/63aaf8f2426e9824f0350c13/img/image-placeholder-7@1x.png");
+			collection.setVolume(request.getVolume());
+			collectionRepository.save(collection);
 			
 			String jwtToken = jwtService.generateToken(user);
 			saveUserToken(savedUser, jwtToken);

@@ -1,8 +1,11 @@
 package vinh.serviceImpl;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -11,9 +14,11 @@ import org.springframework.stereotype.Service;
 
 import vinh.dto.request.AddNFTRequest;
 import vinh.dto.response.INFT;
+import vinh.dto.response.INftImage;
 import vinh.dto.response.INftItem;
 import vinh.dto.response.NFTResponse;
 import vinh.dto.response.NftItemResponse;
+import vinh.dto.response.TrendingResponse;
 import vinh.entity.Category;
 import vinh.entity.Nft;
 import vinh.entity.NftItem;
@@ -54,9 +59,7 @@ public class NFTItemServiceImpl implements NFTItemService {
 			Nft nft = new Nft();
 			nft.setName(item.getName());
 			nft.setImage(item.getImage());
-			String s = item.getPrice();
-			double d = Double.valueOf(s);
-			nft.setPrice(Double.valueOf(d));
+			nft.setPrice(item.getPrice());
 			
 			nft.setCategory(category);
 			Nft savedNFT = nftRepository.save(nft);
@@ -104,9 +107,9 @@ public class NFTItemServiceImpl implements NFTItemService {
 			return null;
 		}
 		List<NftItemResponse> result = new ArrayList<>();
+		List<User> users = getRandomUser(limit);
 		for(int i = 0; i < limit; i++) {
-			User user = getRandomUser(totalUsers);
-			System.out.println(user.getId());
+			User user = users.get(i);
 			INFT item = nftRepository.getNftById(user.getId());
 			NftItemResponse response = new NftItemResponse();
 			response.setUsername(user.getName());
@@ -121,12 +124,56 @@ public class NFTItemServiceImpl implements NFTItemService {
 		return result;
 	}
 	
-	private User getRandomUser(long totalUsers) {
+	private List<User> getRandomUser(long limit) {
+		if (limit <= 0) {
+            return Collections.emptyList(); // Handle invalid limit
+        }
+
+        long totalUserCount = userRepository.count();
+        if (totalUserCount <= 0) {
+            return Collections.emptyList(); // Handle no users in the database
+        }
+
         Random random = new Random();
-        int randomIndex = random.nextInt((int) totalUsers);
-        Pageable pageable = PageRequest.of(randomIndex, 1);
-        List<User> users = userRepository.findAll(pageable).getContent();
-        return users.get(0);
+
+        // Create a set to store already selected user indices
+        Set<Long> selectedIds = new HashSet<>();
+
+        List<User> randomUsers = new ArrayList<>();
+
+        // Keep fetching random users until the limit is reached or no more unique users are available
+        while (selectedIds.size() < limit && selectedIds.size() < totalUserCount) {
+            long randomIndex = random.nextInt((int) totalUserCount) + 1;
+            if (selectedIds.add(randomIndex)) {
+                User user = userRepository.findById(randomIndex).orElse(null);
+                if (user != null) {
+                    randomUsers.add(user);
+                }
+            }
+        }
+
+        return randomUsers;
     }
+
+
+	@Override
+	public List<TrendingResponse> getTop3NftByRandomUser(int limit) {
+		long totalUsers = userRepository.count();
+		if(totalUsers == 0) {
+			return null;
+		}
+		List<TrendingResponse> result = new ArrayList<>();
+		List<User> users = getRandomUser(limit);
+		for(int i = 0; i < limit; i++) {
+			User user = users.get(i);
+			List<INftImage> nfts = nftItemRepository.findTop3NftByUserId(user.getId(), PageRequest.of(0, 3));
+			TrendingResponse response = new TrendingResponse();
+			response.setUsername(user.getName());
+			response.setProfile(user.getProfilePicture());
+			response.setData(nfts);
+			result.add(response);
+		}
+		return result;
+	}
 
 }
