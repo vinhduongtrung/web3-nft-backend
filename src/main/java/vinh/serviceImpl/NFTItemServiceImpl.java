@@ -126,22 +126,20 @@ public class NFTItemServiceImpl implements NFTItemService {
 	
 	private List<User> getRandomUser(long limit) {
 		if (limit <= 0) {
-            return Collections.emptyList(); // Handle invalid limit
+            return Collections.emptyList();
         }
 
         long totalUserCount = userRepository.count();
         if (totalUserCount <= 0) {
-            return Collections.emptyList(); // Handle no users in the database
+            return Collections.emptyList();
         }
 
         Random random = new Random();
 
-        // Create a set to store already selected user indices
         Set<Long> selectedIds = new HashSet<>();
 
         List<User> randomUsers = new ArrayList<>();
 
-        // Keep fetching random users until the limit is reached or no more unique users are available
         while (selectedIds.size() < limit && selectedIds.size() < totalUserCount) {
             long randomIndex = random.nextInt((int) totalUserCount) + 1;
             if (selectedIds.add(randomIndex)) {
