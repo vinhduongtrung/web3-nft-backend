@@ -32,7 +32,8 @@ public class NFTItemController {
 	public NFTResponse findAllByUserName(
 			@PathVariable("username") String username,
 			@PathVariable("page") int page,
-			@PathVariable("count") int limit) {
+			@PathVariable("limit") int limit) {
+		System.out.println("ok");
 		NFTResponse response = nftItemService.findAllByUserName(username, page, limit);
 		return response;
 	}
