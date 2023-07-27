@@ -47,8 +47,8 @@ public class UserController {
 		userService.updateUser(requests);
 	}
 	
-	@GetMapping("/getTopUser/{limit}")
-	public List<TopUserResponse> getTopUserByQuantitySold(@PathVariable("limit") int limit) {
-		return userService.findTopUserByTotalSales(limit);
+	@GetMapping("/getTopUser/{page}/{limit}")
+	public List<TopUserResponse> getTopUserByQuantitySold(@PathVariable("page") int page,@PathVariable("limit") int limit) {
+		return userService.findTopUserByTotalSales(page, limit);
 	}
 }

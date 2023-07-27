@@ -28,7 +28,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	@Query("select u from User u where u.username = ?1")
 	public IUserInfo getUserInfo(String username);
 	
-	@Query("select u.username, u.profilePicture as profile, s.sold as totalSales from Collection s " +
+	@Query("select u.id, u.username, u.profilePicture as profile, s.sold as totalSales from Collection s " +
 			"JOIN s.user u " +
 			"GROUP BY u.id " +
 			"ORDER BY totalSales DESC"
