@@ -25,5 +25,6 @@ public interface UserService {
 	
 	public void updateUser(List<UpdateUserRequest> requests);
 	
-	public List<TopUserResponse> findTopUserByTotalSales(int limit);
+	public List<TopUserResponse> findTopUserByTotalSales(int page, int limit);
+
 }

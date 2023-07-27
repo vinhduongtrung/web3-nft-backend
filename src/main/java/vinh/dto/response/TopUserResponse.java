@@ -1,19 +1,26 @@
 package vinh.dto.response;
 
 public class TopUserResponse {
+	
+	private Long id;
 
-	public String username;
+	private String username;
 
-	public String profile;
+	private String profile;
 
-	public int totalSales;
+	private int totalSales;
 
-	public TopUserResponse(String username, String profile, int totalSales) {
+	public TopUserResponse(Long id, String username, String profile, int totalSales) {
+		this.id = id;
 		this.username = username;
 		this.profile = profile;
 		this.totalSales = totalSales;
 	}
 
+	
+	public Long getId() {
+		return id;
+	}
 	public String getUsername() {
 		return username;
 	}

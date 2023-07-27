@@ -16,6 +16,7 @@ import vinh.dto.request.AddNFTRequest;
 import vinh.dto.response.INFT;
 import vinh.dto.response.INftImage;
 import vinh.dto.response.INftItem;
+import vinh.dto.response.NFTId;
 import vinh.dto.response.NFTResponse;
 import vinh.dto.response.NftItemResponse;
 import vinh.dto.response.TrendingResponse;
@@ -110,7 +111,9 @@ public class NFTItemServiceImpl implements NFTItemService {
 		List<User> users = getRandomUser(limit);
 		for(int i = 0; i < limit; i++) {
 			User user = users.get(i);
-			INFT item = nftRepository.getNftById(user.getId());
+			List<NFTId> ids = nftItemRepository.getNftIdByUserId(user.getId());
+			Long randomId = new Random().nextLong(ids.size());
+			INFT item = nftRepository.getNftById(randomId);
 			NftItemResponse response = new NftItemResponse();
 			response.setUsername(user.getName());
 			response.setProfilePicture(user.getProfilePicture());
