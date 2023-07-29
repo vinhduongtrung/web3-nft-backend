@@ -29,9 +29,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	public IUserInfo getUserInfo(String username);
 	
 	@Query("select u.id, u.username, u.profilePicture as profile, s.sold as totalSales from Collection s " +
-			"JOIN s.user u " +
-			"GROUP BY u.id " +
-			"ORDER BY totalSales DESC"
+			"JOIN s.user u "
 			)
 	public List<Object[]> findTopUserByTotalSales(Pageable pageable);
 	
