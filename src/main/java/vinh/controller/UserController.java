@@ -49,6 +49,7 @@ public class UserController {
 	
 	@GetMapping("/getTopUser/{page}/{limit}")
 	public List<TopUserResponse> getTopUserByQuantitySold(@PathVariable("page") int page,@PathVariable("limit") int limit) {
+		System.out.println(page + " , " + limit);
 		return userService.findTopUserByTotalSales(page, limit);
 	}
 }

@@ -111,9 +111,20 @@ public class NFTItemServiceImpl implements NFTItemService {
 		List<User> users = getRandomUser(limit);
 		for(int i = 0; i < limit; i++) {
 			User user = users.get(i);
-			List<NFTId> ids = nftItemRepository.getNftIdByUserId(user.getId());
-			Long randomId = new Random().nextLong(ids.size());
-			INFT item = nftRepository.getNftById(randomId);
+			List<NFTId> idList = nftItemRepository.getNftIdByUserId(user.getId());
+			int size = idList.size();
+			System.out.println("size: " + size);
+			if (size <= 1) {
+	            throw new IllegalArgumentException("size must be greater than 1.");
+	        }
+			int randomIndex = new Random().nextInt(size) + 1;
+			Long id = idList.get(randomIndex).getId();
+			System.out.println("id : " + id);
+			
+			INFT item = nftRepository.getNftById(id);
+			if(item == null) {
+				System.out.println("no nft was found by id : " + id);
+			}
 			NftItemResponse response = new NftItemResponse();
 			response.setUsername(user.getName());
 			response.setProfilePicture(user.getProfilePicture());

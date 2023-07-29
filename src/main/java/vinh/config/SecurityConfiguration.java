@@ -68,7 +68,10 @@ public class SecurityConfiguration {
 		  			public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
 		  				CorsConfiguration cfg = new CorsConfiguration();
 		  				cfg.setAllowedOrigins(Arrays.asList(
-		  					"http://localhost:5173"
+		  					"http://localhost:5173",
+			  				"https://rarecollection.netlify.app",
+			  				"rarecollection.netlify.app",
+			  				"https://photocollection.netlify.app"
 		  				));
 		  				cfg.setAllowedMethods(Collections.singletonList("*"));
 		  				cfg.setAllowCredentials(true);

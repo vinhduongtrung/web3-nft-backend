@@ -40,6 +40,7 @@ public class NFTItemController {
 	
 	@GetMapping("/getMoreNft/{limit}")
 	public List<NftItemResponse> getMoreNft(@PathVariable("limit") int limit) {
+		System.out.println(limit);
 		return nftItemService.getNftByRandomUser(limit);
 	}
 	
@@ -48,4 +49,5 @@ public class NFTItemController {
 		List<TrendingResponse> response = nftItemService.getTop3NftByRandomUser(limit);
 		return response;
 	}
+	
 }
