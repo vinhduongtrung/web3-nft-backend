@@ -16,6 +16,7 @@ import vinh.dto.request.AddNFTRequest;
 import vinh.dto.response.INFT;
 import vinh.dto.response.INftImage;
 import vinh.dto.response.INftItem;
+import vinh.dto.response.IUserInfo;
 import vinh.dto.response.NFTId;
 import vinh.dto.response.NFTResponse;
 import vinh.dto.response.NftItemResponse;
@@ -111,7 +112,9 @@ public class NFTItemServiceImpl implements NFTItemService {
 		List<User> users = getRandomUser(limit);
 		for(int i = 0; i < limit; i++) {
 			User user = users.get(i);
-			List<NFTId> idList = nftItemRepository.getNftIdByUserId(user.getId());
+			Long userId = user.getId();
+			System.out.println("userId : " + userId);
+			List<NFTId> idList = nftItemRepository.getNftIdByUserId(user.getId()); //// fix
 			int size = idList.size();
 			System.out.println("size: " + size);
 			if (size <= 1) {
@@ -131,6 +134,8 @@ public class NFTItemServiceImpl implements NFTItemService {
 			response.setImage(item.getImage());
 			response.setNftName(item.getName());
 			response.setBid(item.getBid());
+			response.setPrice(item.getPrice());
+			response.setId(item.getId());
 			
 			result.add(response);
 		}
@@ -169,7 +174,7 @@ public class NFTItemServiceImpl implements NFTItemService {
 
 
 	@Override
-	public List<TrendingResponse> getTop3NftByRandomUser(int limit) {
+	public List<TrendingResponse> getTop4NftByRandomUser(int limit) {
 		long totalUsers = userRepository.count();
 		if(totalUsers == 0) {
 			return null;
@@ -178,11 +183,33 @@ public class NFTItemServiceImpl implements NFTItemService {
 		List<User> users = getRandomUser(limit);
 		for(int i = 0; i < limit; i++) {
 			User user = users.get(i);
-			List<INftImage> nfts = nftItemRepository.findTop3NftByUserId(user.getId(), PageRequest.of(0, 3));
+			List<INftImage> nfts = nftItemRepository.findTop3NftByUserId(user.getId(), PageRequest.of(0, 4));
 			TrendingResponse response = new TrendingResponse();
 			response.setUsername(user.getName());
 			response.setProfile(user.getProfilePicture());
 			response.setData(nfts);
+			result.add(response);
+		}
+		return result;
+	}
+
+
+	@Override
+	public List<NftItemResponse> findAll(int page, int limit) {
+		List<INFT> nfts = nftRepository.findAllNFT(PageRequest.of(page - 1, limit));
+		List<NftItemResponse> result = new ArrayList<>();
+		
+		for(INFT nft : nfts) {
+			Long userId = nftItemRepository.getUserIdByNftId(nft.getId()).getId();
+			IUserInfo userInfo = userRepository.getUserById(userId);
+			NftItemResponse response = new NftItemResponse();
+			response.setUsername(userInfo.getName());
+			response.setProfilePicture(userInfo.getProfilePicture());
+			response.setImage(nft.getImage());
+			response.setId(nft.getId());
+			response.setNftName(nft.getName());
+			response.setPrice(nft.getPrice());
+			response.setBid(nft.getBid());
 			result.add(response);
 		}
 		return result;
