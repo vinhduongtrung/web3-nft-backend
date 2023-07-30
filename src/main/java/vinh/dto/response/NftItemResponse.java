@@ -8,6 +8,8 @@ public class NftItemResponse {
 	
 	private String image;
 	
+	private Long id;
+	
 	private String nftName;
 	
 	private double price;
@@ -62,5 +64,13 @@ public class NftItemResponse {
 
 	public double getBid() {
 		return bid;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 }

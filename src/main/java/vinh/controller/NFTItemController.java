@@ -46,7 +46,16 @@ public class NFTItemController {
 	
 	@GetMapping("/getTrendingNft/{limit}")
 	public List<TrendingResponse> getTrendingNft(@PathVariable("limit") int limit) {
-		List<TrendingResponse> response = nftItemService.getTop3NftByRandomUser(limit);
+		List<TrendingResponse> response = nftItemService.getTop4NftByRandomUser(limit);
+		return response;
+	}
+	
+	@GetMapping("/findAll/{page}/{limit}")
+	public List<NftItemResponse> findAll(@PathVariable("page") int page,
+			@PathVariable("limit") int limit) {
+		System.out.println("page : " + page + ", limit : " + limit);
+		List<NftItemResponse> response = nftItemService.findAll(page, limit);
+		System.out.println("size : " + response.size());
 		return response;
 	}
 	

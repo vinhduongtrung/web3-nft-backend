@@ -15,5 +15,7 @@ public interface NFTItemService {
 	
 	public List<NftItemResponse> getNftByRandomUser(int limit);
 	
-	public List<TrendingResponse> getTop3NftByRandomUser(int limit);
+	public List<TrendingResponse> getTop4NftByRandomUser(int limit);
+	
+	public List<NftItemResponse> findAll(int page, int limit);
 }
